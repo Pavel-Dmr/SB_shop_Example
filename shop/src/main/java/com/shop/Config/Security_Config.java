@@ -31,16 +31,16 @@ public class Security_Config {
                 .logoutSuccessUrl("/")
         ;
 
-        http.authorizeRequests()
-                .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
+        http.authorizeRequests() // 시큐리티 처리에 httpservletRequest를 이용한다는 의미
+                .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll() // 모든 사용자가 로그인 없이 경로 접근
                 .mvcMatchers("/", "/member/**", "/item/**", "/images/**").permitAll()
-                .mvcMatchers("/admin/**").hasRole("ADMIN")
+                .mvcMatchers("/admin/**").hasRole("ADMIN") // ADMIN인 경우 접근가능
                 .anyRequest().authenticated()
         ;
 
-//        http.exceptionHandling()
-//                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-//        ;
+        http.exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+        ; // 인증되지 않은 사용자가 리소스에 접근했을때 수행되는 핸들러 등록
 
         return http.build();
     }
@@ -51,3 +51,4 @@ public class Security_Config {
     }
 
 }
+
